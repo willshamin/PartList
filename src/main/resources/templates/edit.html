@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <style type="text/css">
+        .paddingdiv {
+            padding: 50px
+        }
+        .brownbutton {
+            background: #4d3a1e;
+            color: white;
+            width: 100px
+        }
+    </style>
+</head>
+<body>
+<div class="container paddingdiv">
+    <div class="row">
+        <div class="col">
+            <form method="post" th:action="@{/edit}" th:object="${part}">
+                <input type="hidden" name="id" id="id" th:value="*{id}">
+                <input type="hidden" name="date" th:value="*{date}">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Name:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" name="name" id="name" th:value="*{name}" required
+                               size="25">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Stock:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="number" name="stock" id="stock" th:value="*{stock}" required min="0" max="100">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Is required:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="checkbox" name="required" id="required" th:checked="*{required}">
+                    </div>
+                </div>
+                <div class="form-group row justify-content-end">
+                    <div class="col-auto">
+                        <button class="brownbutton" type="submit">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PartList</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"/>
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <style type="text/css">
+        .paddingdiv {
+            padding: 50px
+        }
+        .browndiv {
+            background: #786455;
+            padding: 10px
+        }
+        .searchdiv {
+            padding-top: 20px
+        }
+        .lightbrownlink {
+            color: #bfb6a0
+        }
+        .orangelink {
+            color: #a83016
+        }
+        .lightbrownthead {
+            background: #b39b89
+        }
+        .brownbutton {
+            background: #4d3a1e;
+            color: white;
+            width: 100px
+        }
+    </style>
+</head>
+<body>
+<div class="container paddingdiv">
+    <div class="row">
+        <div class="col browndiv">
+            <a class="lightbrownlink" th:href="@{'/new'}">Create new part</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col searchdiv">
+            <form method="get" action="/">
+                <label>Search parts by name:</label>
+                <input type="text" name="filter" th:value="${filter}" placeholder="type name here...">
+                <button class="brownbutton" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover table-sm">
+                <thead class="lightbrownthead">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Is required</th>
+                    <th scope="col">Created date</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="part : ${parts.content}">
+                    <td th:text="${part.id}"></td>
+                    <td th:text="${part.name}"></td>
+                    <td th:text="${part.stock}"></td>
+                    <td th:text="${part.required}"></td>
+                    <td th:text="${part.date}"></td>
+                    <td>
+                        <a class="orangelink" th:href="@{'/edit/{id}'(id=${part.id})}">Edit</a>
+                    </td>
+                    <td>
+                        <a class="orangelink" th:href="@{'/delete/{id}'(id=${part.id})}"
+                           onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-bordered table-hover table-sm">
+                <tbody>
+                <tr>
+                    <td>Number of computers</td>
+                    <td th:text="${number}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row" th:if="${parts.totalPages != 1}">
+        <div class="col browndiv">
+            <ul class="nav justify-content-center">
+                <li class="nav-item" th:if="${parts.number > 0}">
+                    <a class="nav-link lightbrownlink"
+                       th:href="@{'?page={number}'(number=${parts.number - 1})}"
+                       th:text="Prev"></a>
+                </li>
+                <li class="nav-item" th:each="pageNumber : ${#numbers.sequence(0,parts.totalPages - 1)}">
+                    <a th:class="${parts.number == pageNumber} ? 'nav-link active disabled' : 'nav-link lightbrownlink'"
+                       th:href="@{'?page={number}'(number=${pageNumber})}"
+                       th:text="${pageNumber + 1}"></a>
+                </li>
+                <li class="nav-item" th:if="${parts.number < parts.totalPages - 1}">
+                    <a class="nav-link lightbrownlink"
+                       th:href="@{'?page={number}'(number=${parts.number + 1})}"
+                       th:text="Next"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
